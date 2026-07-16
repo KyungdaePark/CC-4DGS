@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Native extension builds
+build/
+dist/
+*.so
+*.o
+*.ninja
+.ninja_*
+
+# Environments and editors
+.venv/
+venv/
+.idea/
+.vscode/
+.DS_Store
+
+# Datasets and experiment outputs
+data/
+datasets/
+output/
+outputs/
+output_*/
+logs/
+runs/
+wandb/
+
+# Model and compression artifacts
+*.pth
+*.pt
+*.ply
+*.npz
+*.npy
+*.bin
+*.dump
+cfg_args
+log_metrics.txt
+results.json
+per_view.json
+metrics_curve.json
+
+# Rendered media and archives
+*.png
+*.jpg
+*.jpeg
+*.mp4
+*.mov
+*.zip
+*.tar
+*.tar.gz
+
+# Documentation assets
+!assets/*.png
