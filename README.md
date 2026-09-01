@@ -14,8 +14,10 @@
 <p align="center"><strong>Official research implementation</strong></p>
 
 <p align="center">
+  <a href="https://doi.org/10.1109/TVCG.2026.3721136">Paper</a> |
   <a href="#installation">Installation</a> |
   <a href="#datasets">Datasets</a> |
+  <a href="#pretrained-models">Pretrained Models</a> |
   <a href="#training">Training</a> |
   <a href="#rendering-and-metrics">Rendering</a> |
   <a href="#cca-compression">Compression</a>
@@ -102,6 +104,29 @@ layout, and preprocessing protocol from
 [Wu et al.'s official 4DGaussians repository](https://github.com/hustvl/4DGaussians).
 After preparing a scene according to that repository, select the corresponding
 configuration under `arguments/dynerf/` or `arguments/technicolor/`.
+
+## Pretrained Models
+
+The manuscript-default CC-4DGS checkpoints are available from
+[Google Drive](https://drive.google.com/drive/folders/1wSE9Nn9Xo8flSjNXRZsqgGDnOYsqV6qV?usp=drive_link).
+The release includes the exact scene-specific checkpoints used for manuscript
+evaluation:
+
+- `CC-4DGS_N3DV_CDF/`: raw CDF checkpoints for the six N3DV scenes.
+- `CC-4DGS_N3DV_CDF_CCA/`: deployable CDF+CCA checkpoints for the same six
+  scenes.
+- `CC-4DGS_Technicolor_CDF/`: raw CDF checkpoints for the five Technicolor
+  scenes.
+- `CC-4DGS_Technicolor_CDF_CCA/`: deployable CDF+CCA checkpoints for the same
+  five scenes.
+
+The CDF directories contain `point_cloud.ply` and `deformation.pth`. The
+CDF+CCA directories contain the CCA `compressed/` bundle and the same
+`deformation.pth`; a raw PLY is not required when rendering with
+`--compressed`. Use an extracted scene directory as `MODEL` in the rendering
+commands below. The selected checkpoint iteration and exact deployable byte
+count for each scene are recorded in `manifests/checkpoints.csv` in the Drive
+release.
 
 ## Training
 
@@ -262,11 +287,6 @@ Deform-module checkpoint required for rendering.
 - `residual_codebook.npy` and `residual_assignments.npy` are both required to
   reconstruct the residual correction used by the CCA bundle.
 
-## Citation
-
-Please cite the CC-4DGS paper. The final bibliographic entry will be added here
-when the publication record is available.
-
 ## License
 
 Original CC-4DGS code is licensed under the [Apache License 2.0](LICENSE.md).
@@ -277,3 +297,18 @@ this repository are restricted to non-commercial research and evaluation use;
 the root Apache-2.0 license does not override those terms. See
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and the license files and
 source headers under `submodules/` before redistribution or commercial use.
+
+## Citation
+
+If you find this work useful, please cite:
+
+```bibtex
+@article{park2026cc4dgs,
+  author  = {Park, Kyungdae and Rhee, Chae Eun},
+  title   = {{CC-4DGS}: Computational Deformation and Point-Cloud Compression for Storage-Efficient Dynamic Gaussian Splatting},
+  journal = {IEEE Transactions on Visualization and Computer Graphics},
+  year    = {2026},
+  doi     = {10.1109/TVCG.2026.3721136},
+  url     = {https://doi.org/10.1109/TVCG.2026.3721136}
+}
+```
