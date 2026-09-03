@@ -1,4 +1,4 @@
-<h1 align="center">CC-4DGS: Computational Deformation and Point-Cloud Compression for Storage-Efficient Dynamic Gaussian Splatting</h1>
+<h1 align="center">[TVCG 2026] CC-4DGS: Computational Deformation and Point-Cloud Compression for Storage-Efficient Dynamic Gaussian Splatting</h1>
 
 <p align="center">
   <a href="mailto:kdpark@hanyang.ac.kr">Kyungdae Park</a><sup>1</sup>
@@ -11,13 +11,19 @@
   <sup>2</sup>Department of Electronic Engineering, Hanyang University
 </p>
 
+<p align="center"><strong>IEEE Transactions on Visualization and Computer Graphics (TVCG), 2026</strong></p>
+
+<p align="center">
+  <a href="https://arxiv.org/abs/2609.02184">arXiv</a> |
+  <a href="https://ieeexplore.ieee.org/document/11643605">IEEE Xplore</a> |
+  <a href="https://drive.google.com/drive/folders/1wSE9Nn9Xo8flSjNXRZsqgGDnOYsqV6qV?usp=drive_link">Pretrained Models</a>
+</p>
+
 <p align="center"><strong>Official research implementation</strong></p>
 
 <p align="center">
-  <a href="https://doi.org/10.1109/TVCG.2026.3721136">Paper</a> |
   <a href="#installation">Installation</a> |
   <a href="#datasets">Datasets</a> |
-  <a href="#pretrained-models">Pretrained Models</a> |
   <a href="#training">Training</a> |
   <a href="#rendering-and-metrics">Rendering</a> |
   <a href="#cca-compression">Compression</a>
@@ -308,6 +314,9 @@ If you find this work useful, please cite:
   title   = {{CC-4DGS}: Computational Deformation and Point-Cloud Compression for Storage-Efficient Dynamic Gaussian Splatting},
   journal = {IEEE Transactions on Visualization and Computer Graphics},
   year    = {2026},
+  eprint  = {2609.02184},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
   doi     = {10.1109/TVCG.2026.3721136},
   url     = {https://doi.org/10.1109/TVCG.2026.3721136}
 }
