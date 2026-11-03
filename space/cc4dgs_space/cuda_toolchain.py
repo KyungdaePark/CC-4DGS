@@ -1,7 +1,7 @@
 """Assemble a minimal CUDA toolkit from NVIDIA's official redistributable archives.
 
 Hugging Face Spaces (including ZeroGPU) do not ship ``nvcc``. The pip package
-``nvidia-cuda-nvcc-cu12`` for CUDA 12.4 contains only ``ptxas``, so it cannot be
+``nvidia-cuda-nvcc-cu12`` for CUDA 12.x contains only ``ptxas``, so it cannot be
 used to build PyTorch CUDA extensions. This module downloads the
 ``cuda_nvcc``/``cuda_cudart``/``cuda_cccl``/``cuda_nvtx`` archives listed in
 NVIDIA's ``redistrib_<version>.json`` manifest and merges them into a regular
@@ -23,7 +23,7 @@ import urllib.request
 from pathlib import Path
 
 REDIST_ROOT = "https://developer.download.nvidia.com/compute/cuda/redist"
-DEFAULT_CUDA_VERSION = "12.4.1"  # matches the torch==2.5.1 (cu124) wheel
+DEFAULT_CUDA_VERSION = "12.8.1"  # matches the torch==2.8.0 (cu128) wheel
 COMPONENTS = ("cuda_nvcc", "cuda_cudart", "cuda_cccl", "cuda_nvtx", "cuda_profiler_api")
 PLATFORM = "linux-x86_64"
 
@@ -104,6 +104,8 @@ def cuda_env(cuda_home: Path, arch_list: str | None = None) -> dict:
     env["LD_LIBRARY_PATH"] = f"{cuda_home / 'lib64'}:{env.get('LD_LIBRARY_PATH', '')}"
     env["TORCH_CUDA_ARCH_LIST"] = arch_list or env.get("TORCH_CUDA_ARCH_LIST") or "8.0;8.6;8.9;9.0+PTX"
     env.setdefault("MAX_JOBS", str(max(1, (os.cpu_count() or 2))))
+    # simple-knn uses FLT_MAX without <cfloat>, which the CUDA 12.8 headers no longer pull in.
+    env["NVCC_APPEND_FLAGS"] = f"{env.get('NVCC_APPEND_FLAGS', '')} -include cfloat".strip()
     return env
 
 

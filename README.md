@@ -303,7 +303,7 @@ and requests the `zero-a10g` (ZeroGPU) hardware. Use `--stage-dir <dir>` without
 through the manual workflow `.github/workflows/deploy-hf-space.yml` (repository
 secret `HF_TOKEN`).
 
-The Space runs Python 3.10 with `torch==2.5.1` (CUDA 12.4). The rasterizer and
+The Space runs Python 3.10 with `torch==2.8.0` (CUDA 12.8). The rasterizer and
 `simple-knn` are installed from the prebuilt wheels in `space/wheels/`
 (sm_80/86/89/90). Rebuild them with `bash space/build_wheels.sh` after a torch
 change; no GPU is needed. When the wheels do not match the installed torch, the

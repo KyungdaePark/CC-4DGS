@@ -10,7 +10,7 @@ set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(cd "$HERE/.." && pwd)"
-TORCH_SPEC="${TORCH_SPEC:-torch==2.5.1}"
+TORCH_SPEC="${TORCH_SPEC:-torch==2.8.0}"
 ARCHS="${TORCH_CUDA_ARCH_LIST:-8.0;8.6;8.9;9.0+PTX}"
 WORK="${WORK:-$(mktemp -d -t cc4dgs-wheels-XXXX)}"
 OUT="$HERE/wheels"
@@ -35,6 +35,8 @@ fi
 CUDA_HOME="$(cd "$HERE" && "$PYTHON" -m cc4dgs_space.cuda_toolchain "$WORK/cuda" | tail -1)"
 export CUDA_HOME CUDA_PATH="$CUDA_HOME" PATH="$CUDA_HOME/bin:$PATH" TORCH_CUDA_ARCH_LIST="$ARCHS"
 export MAX_JOBS="${MAX_JOBS:-$(nproc)}"
+# simple-knn uses FLT_MAX without <cfloat>, which the CUDA 12.8 headers no longer pull in.
+export NVCC_APPEND_FLAGS="${NVCC_APPEND_FLAGS:-} -include cfloat"
 
 mkdir -p "$OUT"
 rm -f "$OUT"/*.whl
