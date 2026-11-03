@@ -1,0 +1,19 @@
+# Hugging Face Space (ZeroGPU) runtime for the CC-4DGS viewer.
+# gradio and spaces are provided by the Space SDK (see sdk_version in README.md).
+#
+# The prebuilt CUDA extension wheels in wheels/ target exactly this torch build
+# (torch 2.5.1+cu124, CPython 3.10). If you change torch, rebuild them with
+# space/build_wheels.sh, or the app compiles the extensions from source at start-up.
+torch==2.5.1
+torchvision==0.20.1
+numpy==1.26.4
+plyfile==1.1.3
+opencv-python-headless==4.11.0.86
+scipy==1.15.3
+tqdm
+pillow
+imageio==2.38.0
+imageio-ffmpeg==0.8.0
+zstandard==0.25.0
+bitshuffle==0.5.2
+huggingface_hub

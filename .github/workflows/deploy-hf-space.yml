@@ -1,0 +1,31 @@
+name: Deploy Hugging Face Space
+
+# Manual deployment of the ZeroGPU viewer in space/ to a Hugging Face Space.
+# Add a repository secret HF_TOKEN (a Hugging Face token with write access).
+on:
+  workflow_dispatch:
+    inputs:
+      space_id:
+        description: "Target Space, e.g. <user>/CC-4DGS"
+        required: true
+      private:
+        description: "Create the Space as private"
+        type: boolean
+        default: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - run: pip install huggingface_hub
+      - name: Upload Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          python space/deploy.py --space-id "${{ inputs.space_id }}" ${{ inputs.private && '--private' || '' }}

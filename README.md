@@ -284,6 +284,37 @@ decimal MB, binary MiB, and exact bytes to make the convention explicit. Total
 deployable model size is the compressed canonical-attribute bundle plus the
 Deform-module checkpoint required for rendering.
 
+## Hugging Face Space (ZeroGPU)
+
+`space/` contains a Gradio viewer that renders CDF and CDF+CCA checkpoints on a
+[ZeroGPU](https://huggingface.co/docs/hub/spaces-zerogpu) Space (training is not
+part of the Space). Only rendering requests the GPU; PLY/CCA decoding and the CDF
+network setup run on CPU.
+
+```bash
+git submodule update --init --recursive
+pip install huggingface_hub
+HF_TOKEN=hf_xxx python space/deploy.py --space-id <user>/CC-4DGS
+```
+
+`deploy.py` copies the inference code and `space/` into one folder, uploads it,
+and requests the `zero-a10g` (ZeroGPU) hardware. Use `--stage-dir <dir>` without
+`--space-id` to only assemble the folder. The same step runs from GitHub Actions
+through the manual workflow `.github/workflows/deploy-hf-space.yml` (repository
+secret `HF_TOKEN`).
+
+The Space runs Python 3.10 with `torch==2.5.1` (CUDA 12.4). The rasterizer and
+`simple-knn` are installed from the prebuilt wheels in `space/wheels/`
+(sm_80/86/89/90). Rebuild them with `bash space/build_wheels.sh` after a torch
+change; no GPU is needed. When the wheels do not match the installed torch, the
+app compiles the extensions at start-up with a CUDA toolkit that it downloads
+from NVIDIA's redistributable archives.
+
+To render a scene, upload a zip of the scene folder or enter a Hugging Face repo
+and subfolder that holds `point_cloud/iteration_<N>/`. Add `poses_bounds.npy`
+(N3DV) or COLMAP `images.bin` + `cameras.bin` (Technicolor) to render from the
+dataset cameras and the spiral path; without them the app uses an orbit.
+
 ## Reproduction Notes
 
 - Use the scene-specific config shipped in `arguments/`; several N3DV scenes
